@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect, Requ
 from fastapi.responses import HTMLResponse
 import uvicorn
 import subprocess
-import shlex
 
 app = FastAPI()
 
@@ -11,7 +10,7 @@ class InteractiveConsole:
     def __init__(self):
         self.stdin = subprocess.PIPE
         self.persistent_process = subprocess.Popen(
-            ["echo", "Welcome to STORM CLI"],
+            "echo Welcome to STORM CLI",
             shell=True,
             text=True,
             stdout=subprocess.PIPE,
@@ -23,7 +22,7 @@ class InteractiveConsole:
         try:
             if (not self.persistent_process) or self.persistent_process.poll():
                 self.persistent_process = subprocess.Popen(
-                    shlex.split(command),
+                    command,
                     shell=True,
                     text=True,
                     stdout=subprocess.PIPE,
